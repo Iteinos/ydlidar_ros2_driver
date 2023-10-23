@@ -1,4 +1,4 @@
-﻿/*
+/*
  *  YDLIDAR SYSTEM
  *  YDLIDAR ROS 2 Node
  *
@@ -29,8 +29,8 @@
 #include <string>
 #include <signal.h>
 
-#define ROS2Verision "1.0.1"
-
+#define ROS2Verision "1.0.1" //humble
+const rcl_interfaces::msg::ParameterDescriptor tempore_a;
 
 int main(int argc, char *argv[]) {
   rclcpp::init(argc, argv);
@@ -41,118 +41,119 @@ int main(int argc, char *argv[]) {
 
   CYdLidar laser;
   std::string str_optvalue = "/dev/ydlidar";
-  node->declare_parameter("port");
+  node->declare_parameter("port", rclcpp::PARAMETER_STRING,tempore_a, false);
   node->get_parameter("port", str_optvalue);
   ///lidar port
   laser.setlidaropt(LidarPropSerialPort, str_optvalue.c_str(), str_optvalue.size());
 
   ///ignore array
   str_optvalue = "";
-  node->declare_parameter("ignore_array");
+  node->declare_parameter("ignore_array", rclcpp::PARAMETER_STRING,tempore_a, false);
   node->get_parameter("ignore_array", str_optvalue);
   laser.setlidaropt(LidarPropIgnoreArray, str_optvalue.c_str(), str_optvalue.size());
 
   std::string frame_id = "laser_frame";
-  node->declare_parameter("frame_id");
+  node->declare_parameter("frame_id", rclcpp::PARAMETER_STRING,tempore_a, false);
   node->get_parameter("frame_id", frame_id);
 
   //////////////////////int property/////////////////
   /// lidar baudrate
   int optval = 230400;
-  node->declare_parameter("baudrate");
+  node->declare_parameter("baudrate", rclcpp::PARAMETER_INTEGER,tempore_a, false);
   node->get_parameter("baudrate", optval);
   laser.setlidaropt(LidarPropSerialBaudrate, &optval, sizeof(int));
   /// tof lidar
   optval = TYPE_TRIANGLE;
-  node->declare_parameter("lidar_type");
+  node->declare_parameter("lidar_type", rclcpp::PARAMETER_INTEGER,tempore_a, false);
   node->get_parameter("lidar_type", optval);
   laser.setlidaropt(LidarPropLidarType, &optval, sizeof(int));
   /// device type
   optval = YDLIDAR_TYPE_SERIAL;
-  node->declare_parameter("device_type");
+  node->declare_parameter("device_type", rclcpp::PARAMETER_INTEGER,tempore_a, false);
   node->get_parameter("device_type", optval);
   laser.setlidaropt(LidarPropDeviceType, &optval, sizeof(int));
   /// sample rate
   optval = 9;
-  node->declare_parameter("sample_rate");
+  node->declare_parameter("sample_rate", rclcpp::PARAMETER_INTEGER,tempore_a, false);
   node->get_parameter("sample_rate", optval);
   laser.setlidaropt(LidarPropSampleRate, &optval, sizeof(int));
   /// abnormal count
   optval = 4;
-  node->declare_parameter("abnormal_check_count");
+  node->declare_parameter("abnormal_check_count", rclcpp::PARAMETER_INTEGER,tempore_a, false);
   node->get_parameter("abnormal_check_count", optval);
   laser.setlidaropt(LidarPropAbnormalCheckCount, &optval, sizeof(int));
 
   /// Intenstiy bit count
   optval = 8;
-  node->declare_parameter("intensity_bit");
+  node->declare_parameter("intensity_bit", rclcpp::PARAMETER_INTEGER,tempore_a, false);
   node->get_parameter("intensity_bit", optval);
   laser.setlidaropt(LidarPropIntenstiyBit, &optval, sizeof(int));
      
   //////////////////////bool property/////////////////
   /// fixed angle resolution
   bool b_optvalue = false;
-  node->declare_parameter("fixed_resolution");
+  node->declare_parameter("fixed_resolution", rclcpp::PARAMETER_BOOL,tempore_a, false);
   node->get_parameter("fixed_resolution", b_optvalue);
   laser.setlidaropt(LidarPropFixedResolution, &b_optvalue, sizeof(bool));
   /// rotate 180
   b_optvalue = true;
-  node->declare_parameter("reversion");
+  node->declare_parameter("reversion", rclcpp::PARAMETER_BOOL,tempore_a, false);
   node->get_parameter("reversion", b_optvalue);
   laser.setlidaropt(LidarPropReversion, &b_optvalue, sizeof(bool));
   /// Counterclockwise
   b_optvalue = true;
-  node->declare_parameter("inverted");
+  node->declare_parameter("inverted", rclcpp::PARAMETER_BOOL,tempore_a, false);
   node->get_parameter("inverted", b_optvalue);
   laser.setlidaropt(LidarPropInverted, &b_optvalue, sizeof(bool));
   b_optvalue = true;
-  node->declare_parameter("auto_reconnect");
+  node->declare_parameter("auto_reconnect", rclcpp::PARAMETER_BOOL,tempore_a, false);
   node->get_parameter("auto_reconnect", b_optvalue);
   laser.setlidaropt(LidarPropAutoReconnect, &b_optvalue, sizeof(bool));
   /// one-way communication
   b_optvalue = false;
-  node->declare_parameter("isSingleChannel");
+  node->declare_parameter("isSingleChannel", rclcpp::PARAMETER_BOOL,tempore_a, false);
   node->get_parameter("isSingleChannel", b_optvalue);
   laser.setlidaropt(LidarPropSingleChannel, &b_optvalue, sizeof(bool));
   /// intensity
   b_optvalue = false;
-  node->declare_parameter("intensity");
+  node->declare_parameter("intensity", rclcpp::PARAMETER_BOOL,tempore_a, false);
   node->get_parameter("intensity", b_optvalue);
   laser.setlidaropt(LidarPropIntenstiy, &b_optvalue, sizeof(bool));
   /// Motor DTR
   b_optvalue = false;
-  node->declare_parameter("support_motor_dtr");
+  node->declare_parameter("support_motor_dtr", rclcpp::PARAMETER_BOOL,tempore_a, false);
   node->get_parameter("support_motor_dtr", b_optvalue);
   laser.setlidaropt(LidarPropSupportMotorDtrCtrl, &b_optvalue, sizeof(bool));
 
   //////////////////////float property/////////////////
   /// unit: °
   float f_optvalue = 180.0f;
-  node->declare_parameter("angle_max");
+  node->declare_parameter("angle_max", rclcpp::PARAMETER_DOUBLE,tempore_a, false);
   node->get_parameter("angle_max", f_optvalue);
   laser.setlidaropt(LidarPropMaxAngle, &f_optvalue, sizeof(float));
   f_optvalue = -180.0f;
-  node->declare_parameter("angle_min");
+  node->declare_parameter("angle_min", rclcpp::PARAMETER_DOUBLE,tempore_a, false);
   node->get_parameter("angle_min", f_optvalue);
   laser.setlidaropt(LidarPropMinAngle, &f_optvalue, sizeof(float));
   /// unit: m
   f_optvalue = 64.f;
-  node->declare_parameter("range_max");
+  node->declare_parameter("range_max", rclcpp::PARAMETER_DOUBLE,tempore_a, false);
   node->get_parameter("range_max", f_optvalue);
   laser.setlidaropt(LidarPropMaxRange, &f_optvalue, sizeof(float));
   f_optvalue = 0.1f;
-  node->declare_parameter("range_min");
+  node->declare_parameter("range_min", rclcpp::PARAMETER_DOUBLE,tempore_a, false);
   node->get_parameter("range_min", f_optvalue);
   laser.setlidaropt(LidarPropMinRange, &f_optvalue, sizeof(float));
   /// unit: Hz
   f_optvalue = 10.f;
-  node->declare_parameter("frequency");
+  node->declare_parameter("frequency",rclcpp::PARAMETER_DOUBLE,tempore_a, false);
   node->get_parameter("frequency", f_optvalue);
   laser.setlidaropt(LidarPropScanFrequency, &f_optvalue, sizeof(float));
 
   bool invalid_range_is_inf = false;
-  node->declare_parameter("invalid_range_is_inf");
-  node->get_parameter("invalid_range_is_inf", invalid_range_is_inf);
+ 
+  node->declare_parameter("invalid_range_is_inf", rclcpp::PARAMETER_BOOL,tempore_a, false); //rclcpp::Node::declare_parameter(const string&, rclcpp::ParameterType, const ParameterDescriptor&, bool)
+  node->get_parameter("invalid_range_is_inf", invalid_range_is_inf); 
 
 
   bool ret = laser.initialize();
@@ -163,12 +164,14 @@ int main(int argc, char *argv[]) {
   }
   
   auto laser_pub = node->create_publisher<sensor_msgs::msg::LaserScan>("scan", rclcpp::SensorDataQoS());
-
   auto stop_scan_service =
-    [&laser](const std::shared_ptr<rmw_request_id_t> request_header,
+    [&laser](const std::shared_ptr<rmw_request_id_t> request_header, //warning: unused parameter ‘request_header’ [-Wunused-parameter]
   const std::shared_ptr<std_srvs::srv::Empty::Request> req,
   std::shared_ptr<std_srvs::srv::Empty::Response> response) -> bool
   {
+    (void)request_header;
+    (void)req;
+    (void)response;
     return laser.turnOff();
   };
 
@@ -179,6 +182,9 @@ int main(int argc, char *argv[]) {
   const std::shared_ptr<std_srvs::srv::Empty::Request> req,
   std::shared_ptr<std_srvs::srv::Empty::Response> response) -> bool
   {
+    (void)request_header;
+    (void)req;
+    (void)response;
     return laser.turnOn();
   };
 
